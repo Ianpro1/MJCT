@@ -1,8 +1,4 @@
-#include <mujoco/mujoco.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-
-//Documentation Summary
+//MuJoCo Documentation Summary
 
 // in any simulation you will use void mj_step(const mjModel* m, mjData* d);
 // where mjData is the dynamic state of our model which is constructed at runtime while mjModel by the compiler
@@ -45,59 +41,156 @@
 
 //Bodies, Geoms and Sites: all roughly correspond to rigid bodies in the physical world. They were made separate because:
 //geoms don't affect physics unlike bodies, hence geoms are mostly used for appearance and collision geometry
-//sites are light geoms which mean they have the same appearance but do not participate in collsions or used to infer body masses.
+//sites are light geoms which mean they have the same appearance but do not participate in collisions or used to infer body masses.
 //On the other hand, sites can do things geoms cannot such as specify the volume of touch sensor, end-point of slider-crank actuators...
 
 // this short summary is that of MuJoCo's overview: https://mujoco.readthedocs.io/en/latest/overview.html
+// basic.cc is a really good sample code provided by Mujoco
+
+#include <mujoco/mujoco.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+#include <GLFW/glfw3.h>
+#include <cstring>
+
+
+mjModel* m = NULL;
+mjData* d = NULL;
+mjvCamera cam;
+mjvOption opt;
+mjvScene scn;
+mjrContext con;
+
+bool button_left = false;
+bool button_middle = false;
+bool button_right = false;
+double lastx = 0;
+double lasty = 0;
+
+void keyboard(GLFWwindow* window, int key, int scancode, int act, int mods)
+{
+	if (act == GLFW_PRESS && key == GLFW_KEY_BACKSPACE) {
+
+		mj_resetData(m, d);
+		mj_forward(m, d);
+	}
+}
 
 int finish(const char* msg = NULL, mjModel* m = NULL) {
 	// deallocate model
 	if (m) {
 		mj_deleteModel(m);
 	}
-
 	// print message
 	if (msg) {
 		std::printf("%s\n", msg);
 	}
-
 	return 0;
 }
 
-int contacts[1];
+void mouse_button(GLFWwindow* window, int button, int act, int mods) {
 
+	button_left = (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+	button_middle = (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS);
+	button_right = (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS);
 
-
-void simulate(int id, int nsteps, mjtNum* ctrl)
-{
-	for (int i = 0; i < nsteps; i++) 
-	{
-
-	
-	}
-
+	glfwGetCursorPos(window, &lastx, &lasty);
 }
 
+void mouse_move(GLFWwindow* window, double xpos, double ypos) {
+
+	if (!button_left && !button_middle && !button_right) {
+		return;
+	}
+
+	double dx = xpos - lastx;
+	double dy = ypos - lasty;
+	lastx = xpos;
+	lasty = ypos;
+
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	bool mod_shift = (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS);
+	mjtMouse action;
+	if (button_right) {
+		action = mod_shift ? mjMOUSE_MOVE_H : mjMOUSE_MOVE_V;
+	}
+	else if (button_left) {
+		action = mod_shift ? mjMOUSE_ROTATE_H : mjMOUSE_ROTATE_V;
+	}
+	else {
+		action = mjMOUSE_ZOOM;
+	}
+
+	mjv_moveCamera(m, action, dx / height, dy / height, &scn, &cam);
+}
+
+void scroll(GLFWwindow* window, double xoffset, double yoffset) {
+	// emulate vertical mouse motion = 5% of window height
+	mjv_moveCamera(m, mjMOUSE_ZOOM, 0, -0.05 * yoffset, &scn, &cam);
+}
+
+const char filename[] = "C:/Users/ianmi/Documents/MuJoCo/model/humanoid/humanoid.xml";
 
 int main() {
+	
+	char error[1000] = "Could not load model";
+	m = mj_loadXML(filename, 0, error, 1000);
 
-	char error[1000] = "Could not load binary model";
-	mjModel* m = NULL;
-	// model can also be loaded in binary format
-	m = mj_loadXML("C:/Users/ianmi/Documents/MuJoCo/model/humanoid/humanoid.xml", 0, error, 1000);
-	if (!m)
-	{
-		return finish(error);
+	// make data
+	d = mj_makeData(m);
+
+	//init GLFW
+	if (!glfwInit()) {
+		mju_error("Could not initialize GLFW");
 	}
 
+	//create window
 
+	GLFWwindow* window = glfwCreateWindow(1200, 900, "Demo", NULL, NULL);
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
 
+	//init visualization data structures
+	mjv_defaultCamera(&cam);
+	mjv_defaultOption(&opt);
+	mjv_defaultScene(&scn);
+	mjr_defaultContext(&con);
 
-	return finish("done", m);
+	//create scene and context
+	mjv_makeScene(m, &scn, 2000);
+	mjr_makeContext(m, &con, mjFONTSCALE_150);
+
+	//INSTALL glfw mouse and keyboard callbacks
+	glfwSetKeyCallback(window, keyboard);
+	glfwSetCursorPosCallback(window, mouse_move);
+	glfwSetMouseButtonCallback(window, mouse_button);
+	glfwSetScrollCallback(window, scroll);
+
+	// run main loop, and simulation
+	while (!glfwWindowShouldClose(window)) {
+
+		mjtNum simstart = d->time;
+		while (d->time - simstart < 1.0 / 60.0) {
+			mj_step(m, d);
+		}
+		
+		mjrRect viewport = { 0, 0, 0, 0 };
+		glfwGetFramebufferSize(window, &viewport.width, &viewport.height);
+
+		mjv_updateScene(m, d, &opt, NULL, &cam, mjCAT_ALL, &scn);
+		mjr_render(viewport, &scn, &con);
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+	mjv_freeScene(&scn);
+	mjr_freeContext(&con);
+
+	mj_deleteData(d);
+	mj_deleteModel(m);
+
+	return 1;
 }
-
-
-
-
-
 

@@ -25,4 +25,9 @@
   <ItemGroup>
     <None Include="mujoco.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="simulate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
