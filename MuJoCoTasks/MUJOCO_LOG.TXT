@@ -19,3 +19,24 @@ WARNING: Nan, Inf or huge value in QACC at DOF 0. The simulation is unstable. Ti
 Sat Mar 18 21:44:27 2023
 WARNING: Nan, Inf or huge value in QACC at DOF 13. The simulation is unstable. Time = 4.1150.
 
+Sun Mar 19 02:20:35 2023
+WARNING: Pre-allocated visual geom buffer is full. Increase maxgeom above 0. Time = 0.0060.
+
+Sun Mar 19 02:20:35 2023
+ERROR: mjvScene scale too small in mjv_room2model
+
+Sun Mar 19 02:20:58 2023
+WARNING: Pre-allocated visual geom buffer is full. Increase maxgeom above 0. Time = 0.0060.
+
+Sun Mar 19 02:20:58 2023
+ERROR: mjvScene scale too small in mjv_room2model
+
+Sun Mar 19 03:05:27 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 03:06:09 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 03:06:34 2023
+ERROR: gladLoadGL error
+

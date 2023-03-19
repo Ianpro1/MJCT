@@ -187,7 +187,7 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		static int idx = 0;
 		mjtNum simstart = d->time;
-		while (d->time - simstart < 1.0 / 180.0) {
+		while (d->time - simstart < 1.0 / 200.0) {
 			idx++;
 			if (idx > 201) {
 				d->ctrl[1] = -1.0;
@@ -203,7 +203,6 @@ int main() {
 
 		mjv_updateScene(m, d, &opt, NULL, &cam, mjCAT_ALL, &scn);
 		mjr_render(viewport, &scn, &con);
-		//consider drawing pixels
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

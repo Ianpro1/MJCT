@@ -158,8 +158,11 @@
     <None Include="mujoco.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simulate.h" />
+    <ClInclude Include="mjct.h" />
     <ClInclude Include="utilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="tosser.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
