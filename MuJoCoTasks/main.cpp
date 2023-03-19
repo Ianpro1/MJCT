@@ -52,7 +52,8 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <cstring>
-
+#include <utilities.h>
+#include <windows.h>
 
 mjModel* m = NULL;
 mjData* d = NULL;
@@ -66,6 +67,7 @@ bool button_middle = false;
 bool button_right = false;
 double lastx = 0;
 double lasty = 0;
+const char filename[] = "C:/Users/ianmi/Documents/MuJoCo/model/gymnasium/tosser.xml";
 
 void keyboard(GLFWwindow* window, int key, int scancode, int act, int mods)
 {
@@ -131,7 +133,6 @@ void scroll(GLFWwindow* window, double xoffset, double yoffset) {
 	mjv_moveCamera(m, mjMOUSE_ZOOM, 0, -0.05 * yoffset, &scn, &cam);
 }
 
-const char filename[] = "C:/Users/ianmi/Documents/MuJoCo/model/humanoid/humanoid.xml";
 
 int main() {
 	
@@ -148,12 +149,24 @@ int main() {
 
 	//create window
 
-	GLFWwindow* window = glfwCreateWindow(1200, 900, "Demo", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(1200, 900, "test", NULL, NULL);
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 
 	//init visualization data structures
 	mjv_defaultCamera(&cam);
+
+	//camera position
+	cam.lookat[0] = 0.022;
+	cam.lookat[1] = -0.678;
+	cam.lookat[2] = 0.393;
+	//camera angle
+	cam.azimuth = -173.2;
+	cam.elevation = -13.4;
+	//camera distance
+	cam.distance = 1.793;
+
+
 	mjv_defaultOption(&opt);
 	mjv_defaultScene(&scn);
 	mjr_defaultContext(&con);
@@ -168,14 +181,23 @@ int main() {
 	glfwSetMouseButtonCallback(window, mouse_button);
 	glfwSetScrollCallback(window, scroll);
 
+	
 	// run main loop, and simulation
+	
 	while (!glfwWindowShouldClose(window)) {
-
+		static int idx = 0;
 		mjtNum simstart = d->time;
-		while (d->time - simstart < 1.0 / 60.0) {
+		while (d->time - simstart < 1.0 / 200.0) {
+			idx++;
+			if (idx > 201) {
+				d->ctrl[1] = -1.0;
+			}
+			else {
+				d->ctrl[0] = 0.40;
+			}
 			mj_step(m, d);
 		}
-		
+
 		mjrRect viewport = { 0, 0, 0, 0 };
 		glfwGetFramebufferSize(window, &viewport.width, &viewport.height);
 
@@ -184,6 +206,11 @@ int main() {
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		
+		if (d->time > 3) {
+			mj_resetData(m, d);
+			idx = 0;
+		}
 	}
 	mjv_freeScene(&scn);
 	mjr_freeContext(&con);
