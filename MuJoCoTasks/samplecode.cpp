@@ -135,7 +135,7 @@ void scroll(GLFWwindow* window, double xoffset, double yoffset) {
 }
 
 
-int main() {
+int samplecodemain() {
 
 	char error[1000] = "Could not load model";
 	m = mj_loadXML(filename, 0, error, 1000);
