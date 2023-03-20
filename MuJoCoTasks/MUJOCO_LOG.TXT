@@ -40,3 +40,75 @@ ERROR: gladLoadGL error
 Sun Mar 19 03:06:34 2023
 ERROR: gladLoadGL error
 
+Sun Mar 19 14:22:37 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 15:08:48 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 15:08:54 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 15:11:51 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 18:16:45 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 18:17:30 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 18:17:45 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 18:21:04 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 21:04:18 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 21:06:24 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 21:06:39 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 21:11:45 2023
+ERROR: No OpenGL framebuffer available
+
+Sun Mar 19 21:44:43 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 21:46:52 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 21:47:05 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 21:55:37 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:11:28 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:11:45 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:12:34 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:12:49 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:13:02 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:13:16 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:13:30 2023
+ERROR: gladLoadGL error
+
+Sun Mar 19 23:14:04 2023
+ERROR: gladLoadGL error
+
