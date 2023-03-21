@@ -78,9 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,13 +126,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\ianmi\Documents\MuJoCo\include;C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;C:\Users\ianmi\Documents\MuJoCo\include;C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\ianmi\Documents\MuJoCo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opencv_world470.lib;opencv_world470d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\libs;C:\Users\ianmi\Documents\MuJoCo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opencv_world470.lib;opencv_world470d.lib;python3.lib;python311.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,21 +143,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\ianmi\Documents\MuJoCo\include;C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;C:\Users\ianmi\Documents\MuJoCo\include;C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\ianmi\Documents\MuJoCo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opencv_world470.lib;opencv_world470d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\libs;C:\Users\ianmi\Documents\MuJoCo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opencv_world470.lib;opencv_world470d.lib;python3.lib;python311.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="samplecode.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mjct.h" />
