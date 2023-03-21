@@ -1,0 +1,3 @@
+[submodule "cmake_example"]
+	path = cmake_example
+	url = https://github.com/pybind/cmake_example.git
