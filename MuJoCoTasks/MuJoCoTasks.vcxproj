@@ -24,7 +24,7 @@
     <ProjectGuid>{7ed54140-c38a-423f-b490-f8f592efda40}</ProjectGuid>
     <RootNamespace>MuJoCoTasks</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>mjct</ProjectName>
+    <ProjectName>MuJoCoTasks</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
