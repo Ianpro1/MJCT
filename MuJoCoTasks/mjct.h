@@ -11,8 +11,11 @@ class FixedEnvironment {
 public:
 	mjModel* m = NULL;
 	mjData* d = NULL;
-	mjvCamera cam;
+	bool b_render = false;
+
+	//these are optional variables
 	mjvOption opt;
+	mjvCamera cam;
 	mjvScene scn;
 	mjrContext con;
 	mjrRect viewport;
@@ -21,7 +24,6 @@ public:
 	int H;
 	int W;
 	GLFWwindow* window;
-	bool b_render = false;
 
 	void create(const char* taskname, bool render = false) {
 
@@ -31,7 +33,6 @@ public:
 		char error[100] = "Could not load model";
 		m = mj_loadXML(taskname, 0, error, 100);
 		d = mj_makeData(m);
-		mjv_defaultOption(&opt);
 
 		if (render) {
 
@@ -49,7 +50,7 @@ public:
 
 			// make context current
 			glfwMakeContextCurrent(window);
-
+			mjv_defaultOption(&opt); //these are visualization configs
 			mjv_defaultCamera(&cam);
 			mjv_defaultScene(&scn);
 			mjr_defaultContext(&con);
