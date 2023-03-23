@@ -8,4 +8,4 @@ add_subdirectory(extern/pybind11)
 pybind11_add_module(mjct MuJoCoTasks/binder.cpp)
 
 # Link any additional libraries if needed
-# target_link_libraries(withoutcmake PRIVATE additional_library)
+target_include_directories(mjct PRIVATE mujocotasks)

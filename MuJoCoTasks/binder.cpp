@@ -1,16 +1,9 @@
 #include <pybind11/pybind11.h>
-#include <mjct.h>
+#include<test.h>
 
+PYBIND11_MODULE(mjct, m) {
 
-Tosser make(bool render) {
-	Tosser env(render);
-	return env;
-}
+	m.doc() = "Pybind11Module";
 
-
-PYBIND11_MODULE(make, m) {
-
-	m.doc() = "makes a tosser environment";
-
-	m.def("add", &make, "A function that creates a tosser environment");
+	m.def("add", &say_hello, "A function that creates a tosser environment");
 }

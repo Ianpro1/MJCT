@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mjct.h" />
+    <ClInclude Include="test.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>
   <ItemGroup>

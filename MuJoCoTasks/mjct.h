@@ -4,7 +4,9 @@
 #include <iostream>
 #include <mujoco/mujoco.h>
 #include <GLFW/glfw3.h>
-#include <opencv2/opencv.hpp>
+#include <tuple>
+#include <array>
+#include <string>
 
 //example of what components every task environment must have by default (in the documentation it is refered to as render-disabled or LightEnvironment)
 //equivalent to render-disabled environment structure
