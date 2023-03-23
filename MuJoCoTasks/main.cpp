@@ -10,4 +10,5 @@ int main()
 	std::cout << "press any key to leave: ";
 	int input;
 	std::cin >> input;
+
 }
