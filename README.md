@@ -11,7 +11,7 @@ CASE 1:
 
  1-create a build directory from the main directory
  
- 2-move build.bat to the build directory
+ 2-move build.bat (located in batfiles) to the build directory
  
  3-run the bat file and it should have built a .pyd file to build/debug (if not go to CASE 2)
  
