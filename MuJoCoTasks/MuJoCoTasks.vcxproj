@@ -79,15 +79,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\lib-vc2019;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\lib;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\lib-vc2019;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\lib;C:\Users\ianmi\AppData\Local\Programs\Python\Python311\libs;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\include;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\include;C:\Users\ianmi\AppData\Local\Programs\Python\Python311\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\lib-vc2019;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\lib;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\lib-vc2019;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\lib;C:\Users\ianmi\AppData\Local\Programs\Python\Python311\libs;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\include;C:\Users\Ianpro1\AppData\Local\Programs\Python\Python311\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\ianmi\source\repos\MuJoCoTasks\MuJoCoTasks;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\glfw\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\mujoco\include;C:\Users\ianmi\AppData\Local\Programs\Python\Python311\include;C:\Users\ianmi\source\repos\MuJoCoTasks\extern\pybind11\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,7 +135,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;python3.lib;python311.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;python311.lib;python3.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +154,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;python3.lib;python311.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mujoco.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;python311.lib;python3.lib;_tkinter.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

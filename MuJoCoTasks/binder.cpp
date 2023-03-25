@@ -14,4 +14,3 @@ PYBIND11_MODULE(mjct, m) {
 		.def("reset", &Tosser::reset)
 		.def("render", &Tosser::render);
 }
-

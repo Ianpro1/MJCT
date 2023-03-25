@@ -230,22 +230,23 @@ public:
 	}
 
 	//render function
-	py::array_t<unsigned char> render()
-	{
-		if (b_render) {
-			unsigned char* rgb = env->render(m, d);
+	py::array_t<unsigned char, py::array::c_style | py::array::forcecast> render() {
 
-			py::array_t<unsigned char> pixels({ 800, 800, 3 });
+		// assumes an image of shape 800 * 800 * 3
+		unsigned char* rgb = env->render(m, d);
 
-			unsigned char* pixel_buffer = pixels.mutable_data();
+		// create Numpy array
+		py::array_t<unsigned char, py::array::c_style | py::array::forcecast> pixels({ 800, 800, 3 }, { 800 * 3, 3, 1 }, rgb);
 
-			std::copy(rgb, rgb + env->H * env->H * 3, pixel_buffer);
-			return pixels;
+		// reverse the order of the rows
+		unsigned char* pixel_buffer = pixels.mutable_data();
+		for (int i = 0; i < 800 / 2; i++) {
+			std::swap_ranges(pixel_buffer + i * 800 * 3, pixel_buffer + (i + 1) * 800 * 3, pixel_buffer + (800 - i - 1) * 800 * 3);
 		}
-		else {
-			throw std::runtime_error("LightEnvironment trying to render!");
-		}
+
+		return pixels;
 	}
+
 
 	~Tosser()
 	{
