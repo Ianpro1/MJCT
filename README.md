@@ -5,6 +5,7 @@ Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
 
 ###INSTALLATION:
 
+
 ####CASE 1:
 
  1-create a build directory from the main directory
@@ -16,6 +17,7 @@ Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
  4-move mujoco.dll (located in extern/mujoco/bin after the bat installation) to the debug folder
  
  5-at this point, inside the debug folder, you have all the required dependencies to import mjct from python
+ 
  
  ####CASE 2:
  
