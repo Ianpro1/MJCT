@@ -6,13 +6,12 @@
 namespace py = pybind11;
 
 
-//most of mujoco's return type should use return_value_policy::reference since we don't want python to manipulate the memory (or copy in certain cases)
+//most of the important binding implementation were made directly onto the classes (will try to later implement their equivalent here)
 PYBIND11_MODULE(mjct, m) {
 	py::class_<Tosser>(m, "Tosser")
 		.def(py::init<bool>(), py::arg("render"))
 		.def("step", &Tosser::step, py::arg("action"))
-		.def("reset", &Tosser::reset);
-
-	m.def("arr", &arr);
+		.def("reset", &Tosser::reset)
+		.def("render", &Tosser::render);
 }
 
