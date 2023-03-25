@@ -3,10 +3,10 @@ c/c++ MuJoCo tasks with python api
 
 Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
 
-###INSTALLATION:
+INSTALLATION:
 
 
-####CASE 1:
+CASE 1:
 
  1-create a build directory from the main directory
  
@@ -19,7 +19,7 @@ Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
  5-at this point, inside the debug folder, you have all the required dependencies to import mjct from python
  
  
- ####CASE 2:
+ CASE 2:
  
  1-if from CASE 1 you got USERWARNINGS from the command prompt, simply run the bat file once more
  
