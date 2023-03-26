@@ -12,6 +12,7 @@ pip install ./mjct
 ```
 You can test the module by creating a Tosser environment object:
 >import mjct
+>
 >env = mjct.Tosser(True)
  
 You can also test the rendering capabilities:
