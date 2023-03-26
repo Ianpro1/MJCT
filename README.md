@@ -1,5 +1,7 @@
 # MJCT
->status: incomplete
+***
+status: incomplete
+***
 c/c++ MuJoCo Tasks with Python API
 
 Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
