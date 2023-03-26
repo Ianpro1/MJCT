@@ -126,8 +126,8 @@ public:
 	{	
 		terminated = false;
 		// required init
-		char error[100] = "Could not load tosser.xml";
-		m = mj_loadXML("tosser.xml", 0, error, 100);
+		char error[1000] = "Could not load tosser.xml";
+		m = mj_loadXML("tosser.xml", 0, error, 1000);
 		if (!m) {
 			throw std::runtime_error(error);
 		}

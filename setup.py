@@ -6,6 +6,7 @@ from pathlib import Path
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
+from setuptools.command.install import install
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -121,7 +122,6 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
 
-
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
@@ -130,9 +130,11 @@ setup(
     author="_ianmi",
     description="",
     long_description="",
-    ext_modules=[CMakeExtension("mjct", "")],
+    ext_modules=[CMakeExtension("mjct")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
+    data_files=[('lib\site-packages', ['extern/mujoco/bin/mujoco.dll', 'mujocotasks/mjct_models/tosser.xml'])],
+    install_requires=['numpy'],
 )

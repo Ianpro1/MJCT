@@ -41,7 +41,7 @@ target_link_libraries(mjct PRIVATE glfw3.lib glfw3dll.lib glfw3_mt.lib)
 # Copy the XML and DLL files to the build/Debug directory
 add_custom_command(TARGET mjct POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/mujocotasks/tosser.xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/mujocotasks/mjct_models/tosser.xml
         ${CMAKE_CURRENT_BINARY_DIR}/Debug/tosser.xml
 )
 
