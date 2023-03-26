@@ -19,7 +19,6 @@ You can test the module by creating a Tosser environment object:
 You can also test the rendering capabilities:
 >env.render()
 
- \n
- \n
+ _ _
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
