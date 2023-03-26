@@ -20,5 +20,6 @@ You can also test the rendering capabilities:
 >env.render()
 
  \n
+ \n
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
