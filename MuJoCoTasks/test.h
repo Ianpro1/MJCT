@@ -147,7 +147,7 @@ public:
 	}
 
 	//step function
-	std::tuple <std::array<double, 10>, double, bool, bool, std::string> step(py::array_t<double,2> values)
+	std::tuple<std::array<double,10>, double, bool, bool, std::string> step(py::array_t<double, py::array::c_style | py::array::forcecast> values)
 	{
 		py::buffer_info buffer_info = values.request();
 		if (buffer_info.ndim != 1 || buffer_info.shape[0] != 2) {
