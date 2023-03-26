@@ -7,6 +7,7 @@ from pathlib import Path
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
 from setuptools.command.install import install
+import shutil
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -122,6 +123,30 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
 
+#create mjct config folder
+src_modelpath = 'mujocotasks/mjct_models'
+print("nothing")
+appdata_path = os.getenv('APPDATA')
+appdata_path = os.path.join(appdata_path, "mjct")
+if os.path.isdir(appdata_path) == False:
+    os.makedirs(appdata_path)
+
+#create copy of xml models to config folder
+#This installation is an issue. There is no way for setuptools to uninstall this config folder
+#and is unsafe to uninstall (all python interpreter share this config folder).
+#TODO compile a custom absolute path during cmake build
+
+model_list = ["tosser.xml"]
+
+for m in model_list:
+    temp_src = os.path.join(src_modelpath, m)
+    temp_dst = os.path.join(appdata_path, m)
+    print(temp_dst)
+    if os.path.isfile(temp_dst) == False:
+        shutil.copy(temp_src, appdata_path)
+
+
+
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
@@ -135,6 +160,6 @@ setup(
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
-    data_files=[('lib\site-packages', ['extern/mujoco/bin/mujoco.dll', 'mujocotasks/mjct_models/tosser.xml'])],
+    data_files=[('lib\site-packages', ['extern/mujoco/bin/mujoco.dll'])],
     install_requires=['numpy'],
 )

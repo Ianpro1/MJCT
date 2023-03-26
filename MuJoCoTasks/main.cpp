@@ -1,6 +1,7 @@
 #include <mjct.h>
 #include <pybind11/pybind11.h>
 #include <GLFW/glfw3.h>
+
 int finish(const char* error) {
 
 	std::cout << error;
@@ -8,6 +9,4 @@ int finish(const char* error) {
 }
 
 int main()
-{
-
-}
+{}

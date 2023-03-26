@@ -120,15 +120,23 @@ private:
 	std::string info = "";
 	bool b_render;
 	bool terminated;
+	
 public:
 	//init
 	Tosser(bool render = false)
-	{	
+	{	// required init
 		terminated = false;
-		// required init
 		char error[1000] = "Could not load tosser.xml";
-		m = mj_loadXML("tosser.xml", 0, error, 1000);
-		if (!m) {
+		char* buf = nullptr;
+		size_t sz = 0;
+		if (_dupenv_s(&buf, &sz, "APPDATA") == 0 && buf != nullptr)
+		{
+			const char* filename =(std::string(buf) + "/mjct/tosser.xml").c_str();
+			m = mj_loadXML(filename, 0, error, 1000);
+			free(buf);
+		}
+		else
+		{
 			throw std::runtime_error(error);
 		}
 
