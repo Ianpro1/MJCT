@@ -15,14 +15,19 @@ The installed module is actually named MuJoCoTasks, therefore to uninstall simpl
 ```
 pip uninstall mujocotasks
 ```
-To create an environment simply import mjct and much like openai's gym, use the make function with the desired environment's id:
+To create an environment simply import mjct (a more userfriendly module) and much like openai gym, use the make function with the desired environment id:
 ```
 import mjct
 env = mjct.make("Tosser")
 ```
+You can also set gym to True if you wish to receive a gymnasium or gym derived environment:
+```
+env = mjct.make("Tosser", gym=True)
+```
 NOTE: The make function will likely throw an error on its first use after installation, simply restart your interpreter to fix this. 
 
 &nbsp;
+
 ***ENV_ID LIST***
 >Tosser
 >
