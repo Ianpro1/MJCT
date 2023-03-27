@@ -11,7 +11,7 @@ INSTALLATION (FOR WINDOWS ONLY):
 git clone --recursive https://github.com/Ianpro1/MJCT.git
 pip install ./MJCT
 ```
-NOTE: The installed module is actually named MuJoCoTasks, therefore to uninstall simply run:
+The installed module is actually named MuJoCoTasks, therefore to uninstall simply run:
 ```
 pip uninstall mujocotasks
 ```
