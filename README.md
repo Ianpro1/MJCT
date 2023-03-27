@@ -15,7 +15,7 @@ NOTE: The installed module is actually named MuJoCoTasks, therefore to uninstall
 ```
 pip uninstall mujocotasks
 ```
-To create an environment simply import mjct and invoke make with the environment's id:
+To create an environment simply import mjct and much like openai's gym, use the make function with the desired environment's id:
 ```
 import mjct
 env = mjct.make("Tosser")
