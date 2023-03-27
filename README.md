@@ -1,11 +1,24 @@
 # MJCT
-c/c++ MuJoCo tasks with python api
+***status: incomplete***
 
-Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8
+c/c++ MuJoCo Tasks with Python API
 
+******
 
-INSTALLATION (testing only):
+INSTALLATION (FOR WINDOWS ONLY):
 
-1- Run first_build.bat from build_scripts directory
+```
+git clone --recursive https://github.com/Ianpro1/MJCT.git
+pip install ./mjct
+```
+You can test the module by creating a Tosser environment object:
+>import mjct
+>
+>env = mjct.Tosser(True)
+ 
+You can also test the rendering capabilities:
+>env.render()
 
-2- A module will have been created in build/debug, you can try it out by running the script named test_mjct.bat located in build_scripts
+ &nbsp;
+ 
+_Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
