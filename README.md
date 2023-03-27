@@ -20,6 +20,7 @@ To create an environment simply import mjct and much like openai's gym, use the 
 import mjct
 env = mjct.make("Tosser")
 ```
+NOTE: If the make function throws an error on its first use after installation, simply restart your interpreter. 
 &nbsp;
 ***ENV_ID LIST***
 >Tosser
