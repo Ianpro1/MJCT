@@ -29,7 +29,7 @@
     <ClInclude Include="mjct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test.h">
+    <ClInclude Include="mjct_py.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

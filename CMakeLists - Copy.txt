@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
-project(mujocotasks)
+project(mjct)
 
 include(ExternalProject)
 
@@ -24,22 +24,22 @@ ExternalProject_Add(glfw
 )
 
 add_subdirectory(extern/pybind11)
-pybind11_add_module(mujocotasks MuJoCoTasks/binder.cpp)
-target_include_directories(mujocotasks PRIVATE mujocotasks)
-target_include_directories(mujocotasks PRIVATE extern/mujoco/include)
-target_include_directories(mujocotasks PRIVATE extern/glfw/include)
+pybind11_add_module(mjct MuJoCoTasks/binder.cpp)
+target_include_directories(mjct PRIVATE mujocotasks)
+target_include_directories(mjct PRIVATE extern/mujoco/include)
+target_include_directories(mjct PRIVATE extern/glfw/include)
 
-add_dependencies(mujocotasks mujoco glfw)
+add_dependencies(mjct mujoco glfw)
 
-target_link_directories(mujocotasks PRIVATE ${CMAKE_SOURCE_DIR}/extern/mujoco/lib)
-target_link_libraries(mujocotasks PRIVATE mujoco.lib)
+target_link_directories(mjct PRIVATE ${CMAKE_SOURCE_DIR}/extern/mujoco/lib)
+target_link_libraries(mjct PRIVATE mujoco.lib)
 
-target_link_directories(mujocotasks PRIVATE ${CMAKE_SOURCE_DIR}/extern/glfw/lib-vc2019)
-target_link_libraries(mujocotasks PRIVATE glfw3.lib glfw3dll.lib glfw3_mt.lib)
+target_link_directories(mjct PRIVATE ${CMAKE_SOURCE_DIR}/extern/glfw/lib-vc2019)
+target_link_libraries(mjct PRIVATE glfw3.lib glfw3dll.lib glfw3_mt.lib)
 
 
 # Copy the XML and DLL files to the mjct directory
-add_custom_command(TARGET mujocotasks POST_BUILD
+add_custom_command(TARGET mjct POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_CURRENT_SOURCE_DIR}/extern/mujoco/bin/mujoco.dll
         ${CMAKE_CURRENT_SOURCE_DIR}/mjct/mujoco.dll

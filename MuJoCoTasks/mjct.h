@@ -130,8 +130,37 @@ struct HeavyEnvironment {
 };
 
 
-//example of basic task environment
-class Tosser {
+const char* addToModel_Dir(const char* filename) {
+	std::string current_file(__FILE__);
+	std::size_t last_separator = current_file.find_last_of("/\\");
+	std::string current_directory = current_file.substr(0, last_separator);
+	return (current_directory + filename).c_str();
+}
+
+/*
+mjModel loadModel(const char* pathfromconfigfolder) {
+	mjModel m;
+	char error[1000] = "Could not load tosser.xml";
+	char* buf = nullptr;
+	size_t sz = 0;
+	if (_dupenv_s(&buf, &sz, "APPDATA") == 0 && buf != nullptr)
+	{
+		const char* filename = (std::string(buf) + "/mjct/tosser.xml").c_str();
+		m = *mj_loadXML(filename, 0, error, 1000);
+		free(buf);
+		return m;
+	}
+	else
+	{
+		throw std::runtime_error(error);
+		return m;
+	}
+}*/
+
+
+
+//example of basic cpp environment
+class TosserCPP {
 
 private:
 	mjModel* m;
@@ -139,14 +168,17 @@ private:
 	HeavyEnvironment* env;
 	std::string info = "";
 	bool b_render;
+	bool terminated;
 
 public:
 	//init
-	Tosser(bool render=false)
+	TosserCPP(bool render, double timestep)
 	{
+		terminated = false;
 		// required init
-		char error[100] = "Could not load tosser.xml";
-		m = mj_loadXML("tosser.xml", 0, error, 100);
+		
+
+		m->opt.timestep = timestep;
 		d = mj_makeData(m);
 		b_render = render;
 
@@ -208,12 +240,7 @@ public:
 		//truncated
 		// 
 		//Nothing for now...
-
-		//create output
-		std::tuple <std::array<double, 10> , double, bool, bool, std::string> output;
-		output = std::make_tuple(observation, reward, done, false, info);
-
-		return output;
+		return std::make_tuple(observation, reward, done, false, info);
 	}
 
 	//reset function
@@ -231,11 +258,7 @@ public:
 			observation[i] = d->qvel[i];
 		}
 
-		//create output
-		std::tuple <std::array<double, 10>, std::string> output;
-		output = std::make_tuple(observation, info);
-
-		return output;
+		return std::make_tuple(observation, info);
 	}
 
 	//render function
@@ -249,7 +272,7 @@ public:
 		}
 	}
 
-	~Tosser()
+	~TosserCPP()
 	{
 		mj_deleteData(d);
 		mj_deleteModel(m);

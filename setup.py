@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 from setuptools.command.install import install
 import shutil
@@ -123,6 +123,7 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
 
+"""
 #create mjct config folder
 src_modelpath = 'mujocotasks/mjct_models'
 print("nothing")
@@ -144,22 +145,22 @@ for m in model_list:
     print(temp_dst)
     if os.path.isfile(temp_dst) == False:
         shutil.copy(temp_src, appdata_path)
-
-
+"""
 
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="mjct",
+    name="mujocotasks",
     version="0.0.1",
     author="_ianmi",
     description="",
     long_description="",
-    ext_modules=[CMakeExtension("mjct")],
+    ext_modules=[CMakeExtension("mjct/mujocotasks", "")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
-    data_files=[('lib\site-packages', ['extern/mujoco/bin/mujoco.dll'])],
+    packages=find_packages(),
+    data_files=[('lib/site-packages/mjct', ['mjct/mujoco.dll']), ('lib/site-packages/mjct/models', ['mjct/models/tosser.xml'])],
     install_requires=['numpy'],
 )
