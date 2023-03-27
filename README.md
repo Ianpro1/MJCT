@@ -11,18 +11,19 @@ INSTALLATION (FOR WINDOWS ONLY):
 git clone --recursive https://github.com/Ianpro1/MJCT.git
 pip install ./MJCT
 ```
-NOTE: the module is named MuJoCoTasks, therefore to uninstall simply run:
+NOTE: The installed module is actually named MuJoCoTasks, therefore to uninstall simply run:
 ```
 pip uninstall mujocotasks
 ```
-You can test the module by creating a Tosser environment object:
->import mjct
+To create an environment simply import mjct and invoke make with the environment's id:
+```
+import mjct
+env = mjct.make("Tosser")
+```
+&nbsp;
+***ENV_ID LIST***
+>Tosser
 >
->env = mjct.Tosser(True)
- 
-You can also test the rendering capabilities:
->env.render()
-
- &nbsp;
+&nbsp;
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
