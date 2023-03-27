@@ -8,4 +8,5 @@ def make(ENV_ID, render=False, timestep=0.02):
     if ENV_ID == "Tosser":
         return mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep)
     else:
-        raise "env id: " + ENV_ID + " does not exists!\n"
+        error = "'" + str(ENV_ID) + "' does not exist! A list of environment ids can be found on: https://github.com/Ianpro1/MJCT \n"
+        raise ValueError(error)
