@@ -1,7 +1,7 @@
-# MJCT
+# MJCT (MuJoCo Tasks)
 ***status: incomplete***
 
-c/c++ MuJoCo Tasks with Python API
+C/C++ reinforcement learning tasks using MuJoCo physics engine with Python API
 
 ******
 
@@ -9,16 +9,23 @@ INSTALLATION (FOR WINDOWS ONLY):
 
 ```
 git clone --recursive https://github.com/Ianpro1/MJCT.git
-pip install ./mjct
+pip install ./MJCT
 ```
-You can test the module by creating a Tosser environment object:
->import mjct
->
->env = mjct.Tosser(True)
- 
-You can also test the rendering capabilities:
->env.render()
+The installed module is actually named MuJoCoTasks, therefore to uninstall simply run:
+```
+pip uninstall mujocotasks
+```
+To create an environment simply import mjct and much like openai's gym, use the make function with the desired environment's id:
+```
+import mjct
+env = mjct.make("Tosser")
+```
+NOTE: The make function will likely throw an error on its first use after installation, simply restart your interpreter to fix this. 
 
- &nbsp;
+&nbsp;
+***ENV_ID LIST***
+>Tosser
+>
+&nbsp;
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
