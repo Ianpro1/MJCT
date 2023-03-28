@@ -17,11 +17,13 @@ PYBIND11_MODULE(mujocotasks, m) {
 		.def("reset", &Tosser::reset)
 		.def("render", &Tosser::render);
 
-	/*
+	
 	//Tosser implemented using pybind11 wrapping over C++ function
+	//TODO add to make
+	//TODO add fps to action
 	py::class_<TosserCPP>(m, "TosserCPP")
-		.def(py::init<bool, double>(), py::arg("render") = false, py::arg("timestep") = 0.05)
-		.def("reset", &Tosser::reset)
+		.def(py::init<const char*, bool, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.05)
+		.def("reset", &TosserCPP::reset)
 		.def("step", [](TosserCPP &t, py::array_t<double, py::array::c_style | py::array::forcecast> python_input) {
 		py::buffer_info buffer_info = python_input.request();
 		if (buffer_info.size != 2) {
@@ -29,13 +31,5 @@ PYBIND11_MODULE(mujocotasks, m) {
 		}
 		double* action = static_cast<double*>(buffer_info.ptr);
 		return t.step(action); })
-		.def("render", [](TosserCPP &t) {
-			unsigned char* rgb = t.render();
-			py::array_t<unsigned char, py::array::c_style | py::array::forcecast> pixels({ 800, 800, 3 }, { 800 * 3, 3, 1 }, rgb);
-			unsigned char* pixel_buffer = pixels.mutable_data();
-			for (int i = 0; i < 800 / 2; i++) {
-				std::swap_ranges(pixel_buffer + i * 800 * 3, pixel_buffer + (i + 1) * 800 * 3, pixel_buffer + (800 - i - 1) * 800 * 3);
-			}
-			return pixels;
-			});*/
+		.def("render", &TosserCPP::render);
 }

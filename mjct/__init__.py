@@ -35,20 +35,28 @@ if disable_gym == False:
 def make(ENV_ID, render=False, timestep=0.02, gym=False):
     filepath = os.path.dirname(__file__)
     from . import mujocotasks
-    if ENV_ID == "Tosser":
-        env = mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep)
 
-        if gym:
-            if disable_gym:
-                print("WARNING: Couldn't find gymnasium or gym installation on system, returned mjct environment instead.")
-                return env
-            else:
-                env = gymEnv(env, (10,), (2,))
-                return env
-        else:
+    #args = obs_shape, action_shape
+    match ENV_ID:
+        
+        case "Tosser":        
+            env = mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep)
+            args =[(10,), (2,)]
+            
+        case "TosserCPP":        
+            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', render, timestep)
+            args =[(10,), (2,)]
+
+        case _:
+            error = "'" + str(ENV_ID) + "' does not exist! A list of environment ids can be found on: https://github.com/Ianpro1/MJCT \n"
+            raise ValueError(error)
+    
+    if gym:
+        if disable_gym:
+            print("WARNING: Couldn't find gymnasium or gym installation on system, returned mjct environment instead.")
             return env
-        
-        
+        else:
+            env = gymEnv(env, args[0], args[1])
+            return env
     else:
-        error = "'" + str(ENV_ID) + "' does not exist! A list of environment ids can be found on: https://github.com/Ianpro1/MJCT \n"
-        raise ValueError(error)
+        return env

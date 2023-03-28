@@ -11,7 +11,106 @@
 
 namespace py = pybind11;
 
-//example of basic task environment (this is where python bindings are implemented)
+//structure used for render-enabled environments (Python approach)
+struct HeavyEnvironment {
+
+	mjvOption opt;
+	mjvCamera cam;
+	mjvScene scn;
+	mjrContext con;
+	mjrRect viewport;
+	unsigned char* rgb = NULL;
+	float* depth = NULL;
+	int H;
+	int W;
+	GLFWwindow* window;
+
+	HeavyEnvironment(mjModel* m)
+	{
+		if (!glfwInit())
+		{
+			std::cout << "!glfwInit";
+		}
+
+		//make single buffer and invisible window
+		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+		glfwWindowHint(GLFW_VISIBLE, 0);
+		window = glfwCreateWindow(800, 800, "MuJoCoTask", NULL, NULL);
+		if (!window) {
+			mju_error("Could not create GLFW window.");
+		}
+
+		// make context current
+		glfwMakeContextCurrent(window);
+		mjv_defaultOption(&opt); //these are visualization configs
+		mjv_defaultCamera(&cam);
+		mjv_defaultScene(&scn);
+		mjr_defaultContext(&con);
+
+		//user defined settings
+		mjv_makeScene(m, &scn, 1000);
+		mjr_makeContext(m, &con, 200);
+
+		viewport = mjr_maxViewport(&con);
+		W = viewport.width;
+		H = viewport.height;
+
+		rgb = (unsigned char*)std::malloc(3 * W * H);
+		depth = (float*)std::malloc(sizeof(float) * W * H);
+		if (!rgb || !depth) {
+			mju_error("Could not allocate buffers.");
+		}
+	}
+
+	void setup_camera(double lookat[3], mjtNum azimuth, mjtNum elevation, mjtNum distance) {
+
+		//camera position
+		for (int i = 0; i < 3; i++)
+		{
+			cam.lookat[i] = lookat[i];
+		}
+		//camera angle
+		cam.azimuth = azimuth;
+		cam.elevation = elevation;
+		//camera distance
+		cam.distance = distance;
+	}
+
+	unsigned char* render(mjModel* m, mjData* d)
+	{
+		// update abstract scene
+		mjv_updateScene(m, d, &opt, NULL, &cam, mjCAT_ALL, &scn);
+
+		// render scene in offscreen buffer
+		mjr_render(viewport, &scn, &con);
+
+		// read rgb and depth buffers
+		mjr_readPixels(rgb, depth, viewport, &con);
+
+		// create OpenCV Mat object from rgb buffer.
+		//cv::Mat rgb_mat(H, W, CV_8UC3, rgb);
+		//cv::flip(rgb_mat, rgb_mat, 0);
+		//cv::cvtColor(rgb_mat, rgb_mat, cv::COLOR_RGB2BGR);
+		// 
+		// save as JPEG
+		//cv::imwrite("output.jpg", rgb_mat);
+
+		return rgb;
+	}
+
+	~HeavyEnvironment() {
+
+		// close file, free buffers and OpenGL
+		std::free(rgb);
+		std::free(depth);
+		glfwTerminate();
+		mjr_freeContext(&con);
+		mjv_freeScene(&scn);
+	}
+};
+
+
+//example of basic environment (using Python bindings pre-implemented)
 class Tosser {
 
 private:
@@ -31,7 +130,7 @@ public:
 		char error[1000] = "Could not load tosser.xml";
 		m = mj_loadXML(path, 0, error, 1000);
 		if(!m){
-			throw std::runtime_error(error);
+			mju_error(error);
 		}
 
 		m->opt.timestep = timestep;
@@ -105,7 +204,7 @@ public:
 
 
 		if (terminated) {
-			std::cout << "The environment is already terminated! further steps may lead to innacurate environment observations.";
+			std::cout << "The environment is already terminated! further steps may lead to innacurate environment observations\n";
 		}
 		else if (done) {
 			terminated = true;
@@ -134,20 +233,27 @@ public:
 
 	//render function
 	py::array_t<unsigned char, py::array::c_style | py::array::forcecast> render() {
+		if (b_render) {
+			// assumes an image of shape 800 * 800 * 3
+			unsigned char* rgb = env->render(m, d);
 
-		// assumes an image of shape 800 * 800 * 3
-		unsigned char* rgb = env->render(m, d);
+			// create Numpy array
+			py::array_t<unsigned char, py::array::c_style | py::array::forcecast> pixels({ 800, 800, 3 }, { 800 * 3, 3, 1 }, rgb);
 
-		// create Numpy array
-		py::array_t<unsigned char, py::array::c_style | py::array::forcecast> pixels({ 800, 800, 3 }, { 800 * 3, 3, 1 }, rgb);
+			// reverse the order of the rows
+			unsigned char* pixel_buffer = pixels.mutable_data();
+			for (int i = 0; i < 800 / 2; i++) {
+				std::swap_ranges(pixel_buffer + i * 800 * 3, pixel_buffer + (i + 1) * 800 * 3, pixel_buffer + (800 - i - 1) * 800 * 3);
+			}
 
-		// reverse the order of the rows
-		unsigned char* pixel_buffer = pixels.mutable_data();
-		for (int i = 0; i < 800 / 2; i++) {
-			std::swap_ranges(pixel_buffer + i * 800 * 3, pixel_buffer + (i + 1) * 800 * 3, pixel_buffer + (800 - i - 1) * 800 * 3);
+			return pixels;
 		}
-
-		return pixels;
+		else {
+			const char* error = "Cannot render from render-disabled environment!\n";
+			//test mju_error to python
+			mju_error(error);
+			//throw std::runtime_error(error);
+		}
 	}
 
 

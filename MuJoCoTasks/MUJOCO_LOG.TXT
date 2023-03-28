@@ -118,3 +118,18 @@ WARNING: Attempting to render an off-render entity!
 Wed Mar 22 19:09:19 2023
 ERROR: LightEnvironment trying to render!
 
+Mon Mar 27 19:59:22 2023
+ERROR: XML parse error 3:
+Error=XML_ERROR_FILE_NOT_FOUND ErrorID=3 (0x3) Line number=0: filename=C:/Users/ianmi/source/repos/MuJoCoTasks/mjct/models/tosse
+
+
+Mon Mar 27 20:00:00 2023
+ERROR: XML parse error 3:
+Error=XML_ERROR_FILE_NOT_FOUND ErrorID=3 (0x3) Line number=0: filename=C:/Users/ianmi/source/repos/MuJoCoTasks/mjct/models/tosse
+
+
+Mon Mar 27 20:07:15 2023
+ERROR: XML parse error 3:
+Error=XML_ERROR_FILE_NOT_FOUND ErrorID=3 (0x3) Line number=0: filename=C:/Users/ianmi/source/repos/MuJoCoTasks/mjct/models/tosse
+
+

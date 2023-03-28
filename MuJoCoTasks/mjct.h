@@ -15,10 +15,13 @@
 	mjModel* m;
 	mjData* d;
 
-	LightEnvironment(const char* taskname)
+	LightEnvironment(const char* taskNameorPath)
 	{
-		char error[100] = "Could not load model.xml";
-		m = mj_loadXML(taskname, 0, error, 100);
+		char error[1000] = "Could not load model.xml";
+		m = mj_loadXML(taskNameorPath, 0, error, 1000);
+		if(!m){
+		throw std::runtime_error(error);
+		}
 		d = mj_makeData(m);
 	}
 
@@ -30,37 +33,33 @@
 };*/
 
 
-//structure used for render-enabled environments
-struct HeavyEnvironment {
+//this is a C-like approach to render environments
+struct CPPEnvironment {
 
 	mjvOption opt;
 	mjvCamera cam;
 	mjvScene scn;
 	mjrContext con;
-	mjrRect viewport;
-	unsigned char* rgb = NULL;
-	float* depth = NULL;
-	int H;
-	int W;
 	GLFWwindow* window;
+	bool not_closed_window;
 
-	HeavyEnvironment(mjModel* m)
+	CPPEnvironment(mjModel* m)
 	{
+		not_closed_window = true;
 		if (!glfwInit())
 		{
 			std::cout << "!glfwInit";
 		}
 
 		//make single buffer and invisible window
-		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-		glfwWindowHint(GLFW_VISIBLE, 0);
 		window = glfwCreateWindow(800, 800, "MuJoCoTask", NULL, NULL);
 		if (!window) {
 			mju_error("Could not create GLFW window.");
 		}
-
 		// make context current
 		glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
+
 		mjv_defaultOption(&opt); //these are visualization configs
 		mjv_defaultCamera(&cam);
 		mjv_defaultScene(&scn);
@@ -69,16 +68,6 @@ struct HeavyEnvironment {
 		//user defined settings
 		mjv_makeScene(m, &scn, 1000);
 		mjr_makeContext(m, &con, 200);
-
-		viewport = mjr_maxViewport(&con);
-		W = viewport.width;
-		H = viewport.height;
-
-		rgb = (unsigned char*)std::malloc(3 * W * H);
-		depth = (float*)std::malloc(sizeof(float) * W * H);
-		if (!rgb || !depth) {
-			mju_error("Could not allocate buffers.");
-		}
 	}
 
 	void setup_camera(double lookat[3], mjtNum azimuth, mjtNum elevation, mjtNum distance) {
@@ -95,68 +84,40 @@ struct HeavyEnvironment {
 		cam.distance = distance;
 	}
 
-	unsigned char* render(mjModel* m, mjData* d)
+	void render(mjModel* m, mjData* d)
 	{
-		// update abstract scene
-		mjv_updateScene(m, d, &opt, NULL, &cam, mjCAT_ALL, &scn);
+		//created viewport
+		if (glfwWindowShouldClose(window) && not_closed_window) {
+			not_closed_window = false;
+			glfwTerminate();
+		}
+		else if(not_closed_window) 
+		{
+			mjrRect viewport = { 0, 0, 0, 0 };
+			glfwGetFramebufferSize(window, &viewport.width, &viewport.height);
 
-		// render scene in offscreen buffer
-		mjr_render(viewport, &scn, &con);
+			// update abstract scene
+			mjv_updateScene(m, d, &opt, NULL, &cam, mjCAT_ALL, &scn);
 
-		// read rgb and depth buffers
-		mjr_readPixels(rgb, depth, viewport, &con);
+			// render scene in offscreen buffer
+			mjr_render(viewport, &scn, &con);
 
-		// create OpenCV Mat object from rgb buffer.
-
-		//cv::Mat rgb_mat(H, W, CV_8UC3, rgb);
-
-		//cv::flip(rgb_mat, rgb_mat, 0);
-		//cv::cvtColor(rgb_mat, rgb_mat, cv::COLOR_RGB2BGR);
-
-		// save as JPEG
-		//cv::imwrite("output.jpg", rgb_mat);
-		return rgb;
+			//swap buffers
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
 	}
 
-	~HeavyEnvironment() {
+	~CPPEnvironment() {
 
 		// close file, free buffers and OpenGL
-		std::free(rgb);
-		std::free(depth);
-		glfwTerminate();
+		if (not_closed_window) {
+			glfwTerminate();
+		}
 		mjr_freeContext(&con);
 		mjv_freeScene(&scn);
 	}
 };
-
-
-const char* addToModel_Dir(const char* filename) {
-	std::string current_file(__FILE__);
-	std::size_t last_separator = current_file.find_last_of("/\\");
-	std::string current_directory = current_file.substr(0, last_separator);
-	return (current_directory + filename).c_str();
-}
-
-/*
-mjModel loadModel(const char* pathfromconfigfolder) {
-	mjModel m;
-	char error[1000] = "Could not load tosser.xml";
-	char* buf = nullptr;
-	size_t sz = 0;
-	if (_dupenv_s(&buf, &sz, "APPDATA") == 0 && buf != nullptr)
-	{
-		const char* filename = (std::string(buf) + "/mjct/tosser.xml").c_str();
-		m = *mj_loadXML(filename, 0, error, 1000);
-		free(buf);
-		return m;
-	}
-	else
-	{
-		throw std::runtime_error(error);
-		return m;
-	}
-}*/
-
 
 
 //example of basic cpp environment
@@ -165,26 +126,30 @@ class TosserCPP {
 private:
 	mjModel* m;
 	mjData* d;
-	HeavyEnvironment* env;
+	CPPEnvironment* env;
 	std::string info = "";
 	bool b_render;
 	bool terminated;
 
 public:
 	//init
-	TosserCPP(bool render, double timestep)
+	TosserCPP(const char* path, bool render, double timestep)
 	{
 		terminated = false;
 		// required init
-		
 
+		char error[1000] = "Could not load tosser.xml";
+		m = mj_loadXML(path, 0, error, 1000);
+		if (!m) {
+			mju_error(error);
+		}
 		m->opt.timestep = timestep;
 		d = mj_makeData(m);
 		b_render = render;
 
 		//optional init
 		if (b_render){
-			env = new HeavyEnvironment(m);
+			env = new CPPEnvironment(m);
 			//set camera position
 			double pos[] = { 0.022, -0.678, 0.393 };
 			env->setup_camera(pos, -173.2, -13.4, 1.8);
@@ -240,12 +205,19 @@ public:
 		//truncated
 		// 
 		//Nothing for now...
+		if (terminated) {
+			std::cout << "The environment is already terminated! further steps may lead to innacurate environment observations\n";
+		}
+		else if (done) {
+			terminated = true;
+		}
 		return std::make_tuple(observation, reward, done, false, info);
 	}
 
 	//reset function
 	std::tuple <std::array<double, 10>, std::string> reset()
 	{
+		terminated = false;
 		//reset env and step forward
 		mj_resetData(m, d);
 		mj_step(m, d);
@@ -262,13 +234,16 @@ public:
 	}
 
 	//render function
-	unsigned char* render()
+	void render()
 	{
 		if (b_render) {
-			return env->render(m, d);
+			env->render(m, d);
 		}
 		else {
-			mju_error("LightEnvironment trying to render!");
+			const char* error = "Cannot render from render-disabled environment!\n";
+			//test mju_error to python
+			mju_error(error);
+			//throw std::runtime_error(error);
 		}
 	}
 
