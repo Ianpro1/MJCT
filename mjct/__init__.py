@@ -32,7 +32,7 @@ if disable_gym == False:
             return self.env.render()
 
 
-def make(ENV_ID, render=False, timestep=0.02, gym=False):
+def make(ENV_ID, render=False, timestep=0.002, apirate=100, gym=False):
     filepath = os.path.dirname(__file__)
     from . import mujocotasks
 
@@ -40,11 +40,11 @@ def make(ENV_ID, render=False, timestep=0.02, gym=False):
     match ENV_ID:
         
         case "Tosser":        
-            env = mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep)
+            env = mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep, apirate)
             args =[(10,), (2,)]
             
         case "TosserCPP":        
-            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', render, timestep)
+            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', render, timestep, apirate)
             args =[(10,), (2,)]
 
         case _:

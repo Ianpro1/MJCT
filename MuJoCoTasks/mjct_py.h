@@ -123,7 +123,7 @@ private:
 	
 public:
 	//init
-	Tosser(const char* path, bool render, double timestep)
+	Tosser(const char* path, bool render, double timestep, double apirate)
 	{	// required init
 		terminated = false;
 
@@ -134,6 +134,7 @@ public:
 		}
 
 		m->opt.timestep = timestep;
+		m->opt.apirate = apirate;
 		d = mj_makeData(m);
 		b_render = render;
 		//optional init

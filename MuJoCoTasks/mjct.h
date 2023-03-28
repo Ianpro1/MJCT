@@ -133,7 +133,7 @@ private:
 
 public:
 	//init
-	TosserCPP(const char* path, bool render, double timestep)
+	TosserCPP(const char* path, bool render, double timestep, double apirate)
 	{
 		terminated = false;
 		// required init
@@ -144,6 +144,7 @@ public:
 			mju_error(error);
 		}
 		m->opt.timestep = timestep;
+		m->opt.apirate = apirate;
 		d = mj_makeData(m);
 		b_render = render;
 

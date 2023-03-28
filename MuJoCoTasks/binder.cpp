@@ -12,7 +12,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 
 	//Tosser implemented using python binded function
 	py::class_<Tosser>(m, "Tosser")
-		.def(py::init<const char*, bool, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.02)
+		.def(py::init<const char*, bool, double, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.002, py::arg("apirate") = 100)
 		.def("step", &Tosser::step, py::arg("action"))
 		.def("reset", &Tosser::reset)
 		.def("render", &Tosser::render);
@@ -22,7 +22,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 	//TODO add to make
 	//TODO add fps to action
 	py::class_<TosserCPP>(m, "TosserCPP")
-		.def(py::init<const char*, bool, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.05)
+		.def(py::init<const char*, bool, double, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.002, py::arg("apirate") = 100)
 		.def("reset", &TosserCPP::reset)
 		.def("step", [](TosserCPP &t, py::array_t<double, py::array::c_style | py::array::forcecast> python_input) {
 		py::buffer_info buffer_info = python_input.request();
