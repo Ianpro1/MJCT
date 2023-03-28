@@ -34,4 +34,4 @@ env = mjct.make("Tosser", gym=True)
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
 
-_information about the MuJoCo Engine can be found on Deepmind's github: https://github.com/deepmind/mujoco_
+_More information about MuJoCo can be found on Deepmind's GitHub: https://github.com/deepmind/mujoco_
