@@ -1,4 +1,4 @@
-# MJCT (MuJoCo Tasks)
+# MJCT (MujocoTasks)
 ***status: incomplete***
 
 C/C++ reinforcement learning tasks using MuJoCo physics engine with Python API
