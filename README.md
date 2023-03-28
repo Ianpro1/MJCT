@@ -24,7 +24,6 @@ You can also set gym to True if you wish to receive a gymnasium or gym derived e
 ```
 env = mjct.make("Tosser", gym=True)
 ```
-NOTE: The make function will likely throw an error on its first use after installation, simply restart your interpreter to fix this. 
 
 &nbsp;
 
