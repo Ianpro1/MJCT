@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /build
 /extern/mujoco
 /extern/glfw
+/mujocotasks.egg-info
