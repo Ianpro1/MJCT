@@ -143,8 +143,12 @@ public:
 		if (!m) {
 			mju_error(error);
 		}
-		m->opt.timestep = timestep;
-		m->opt.apirate = apirate;
+		else {
+			//setting up custom options
+			m->opt.timestep = timestep;
+			m->opt.apirate = apirate;
+		}
+
 		d = mj_makeData(m);
 		b_render = render;
 
@@ -195,7 +199,7 @@ public:
 		
 		//process termination
 		bool done;
-		if (d->time > 5 || reward != 0.0)
+		if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.30 || reward != 0.0)
 		{
 			done = true;
 		}
@@ -222,7 +226,6 @@ public:
 		//reset env and step forward
 		mj_resetData(m, d);
 		mj_step(m, d);
-
 		//process observation
 		std::array<double, 10> observation;
 		for (int i = 0; i < 5; i++)

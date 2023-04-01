@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <iostream>
 #include <string>
 #include <array>
@@ -191,7 +191,7 @@ public:
 
 		//process termination
 		bool done;
-		if (d->time > 5 || reward != 0.0)
+		if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.30 || reward != 0.0)
 		{
 			done = true;
 		}
