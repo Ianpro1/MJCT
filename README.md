@@ -1,7 +1,7 @@
-# MJCT (MuJoCo Tasks)
+# MJCT (MujocoTasks)
 ***status: incomplete***
 
-C/C++ reinforcement learning tasks using MuJoCo physics engine with Python API
+C/C++ Reinforcement Learning Tasks using MuJoCo Physics Engine with Python API
 
 ******
 
@@ -33,3 +33,5 @@ env = mjct.make("Tosser", gym=True)
 &nbsp;
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
+
+_More information about MuJoCo can be found on Deepmind's GitHub: https://github.com/deepmind/mujoco_
