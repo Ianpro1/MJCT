@@ -10,6 +10,7 @@
 
 //example of what components every task environment must have by default (in the documentation it is refered to as render-disabled or LightEnvironment)
 //equivalent to render-disabled environment structure
+//Also, don't forget to implement a getState and setState function to make the class pickable
 /*struct LightEnvironment {
 
 	mjModel* m;
@@ -128,10 +129,13 @@ private:
 	mjData* d;
 	CPPEnvironment* env;
 	std::string info = "";
-	bool b_render;
 	bool terminated;
-
 public:
+	//parameters for pickling support or deep copy (if ever needed)
+	const char* _path;
+	bool b_render;
+	double _params[2];
+
 	//init
 	TosserCPP(const char* path, bool render, double timestep, double apirate)
 	{
@@ -147,6 +151,10 @@ public:
 			//setting up custom options
 			m->opt.timestep = timestep;
 			m->opt.apirate = apirate;
+
+			//saving parameters
+			_params[0] = timestep;
+			_params[1] = apirate;
 		}
 
 		d = mj_makeData(m);
@@ -250,11 +258,12 @@ public:
 			//throw std::runtime_error(error);
 		}
 	}
-
+	
 	~TosserCPP()
 	{
 		mj_deleteData(d);
 		mj_deleteModel(m);
 		delete env;
 	}
+
 };
