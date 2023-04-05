@@ -150,6 +150,8 @@ public:
 		else {
 			//setting up custom options
 			m->opt.timestep = timestep;
+
+			//apirate doesn't work as assumed to...
 			m->opt.apirate = apirate;
 
 			//saving parameters

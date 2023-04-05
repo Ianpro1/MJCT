@@ -21,6 +21,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 
 	
 	//Tosser implemented using pybind11 wrapper over C++ function
+	//add fps functionality
 	py::class_<TosserCPP>(m, "TosserCPP")
 		.def(py::init<const char*, bool, double, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep") = 0.002, py::arg("apirate") = 100)
 		.def("reset", &TosserCPP::reset)
