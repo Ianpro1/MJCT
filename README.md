@@ -29,6 +29,7 @@ env = mjct.make("Tosser", gym=True)
 
 ***ENV_ID LIST***
 >Tosser
+>TosserCPP
 >
 &nbsp;
  
