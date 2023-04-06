@@ -32,19 +32,50 @@ if disable_gym == False:
             return self.env.render()
 
 
-def make(ENV_ID, render=False, timestep=0.002, apirate=100, gym=False):
+#ERROR TYPES
+def render_TypeError(render_type):
+    message ="'" + render_type + "' is not a valid rendering type! Here's a list of possible renders: ('', 'rgb_array' and 'glwindow')."
+    return Exception(message)
+
+
+
+def make(ENV_ID, render="", timestep=0.002, apirate=360, gym=False):
+    assert(render, str)
+    
     filepath = os.path.dirname(__file__)
     from . import mujocotasks
+
+    if render == "":
+        render_type = 0
+    elif render == "rgb_array":
+        render_type = 1
+    elif render == "glwindow":
+        render_type = 2
+    else:
+        raise render_TypeError(render)
 
     #args = obs_shape, action_shape
     match ENV_ID:
         
-        case "Tosser":        
-            env = mujocotasks.Tosser(filepath+'/models/tosser.xml', render, timestep, apirate)
+        case "Tosser":
+            if render_type == 0:
+                brender = False
+            elif render_type == 1:
+                brender=True
+            else:
+                raise Exception("The only rendering mode on 'Tosser' is 'rgb_array'!")
+            
+            env = mujocotasks.Tosser(filepath+'/models/tosser.xml', brender, timestep, apirate)
             args =[(10,), (2,)]
             
-        case "TosserCPP":        
-            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', render, timestep, apirate)
+        case "TosserCPP":  
+            if render_type == 0:
+                brender = False
+            elif render_type == 2:
+                brender=True
+            else:
+                raise Exception("The only rendering mode on 'TosserCPP' is 'glwindow'!")
+            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', brender, timestep, apirate)
             args =[(10,), (2,)]
 
         case _:

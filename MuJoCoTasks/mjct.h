@@ -152,8 +152,6 @@ public:
 			m->opt.timestep = timestep;
 
 			//apirate doesn't work as assumed to...
-			m->opt.apirate = apirate;
-
 			//saving parameters
 			_params[0] = timestep;
 			_params[1] = apirate;
@@ -182,8 +180,10 @@ public:
 		d->ctrl[1] = action[1];
 
 		//step
-		mj_step(m, d);
-
+		double ti = d->time;
+		while (d->time - ti < 1.0 / _params[1]) {
+			mj_step(m, d);
+		}
 
 		//filter reward
 		double reward;
@@ -209,7 +209,7 @@ public:
 		
 		//process termination
 		bool done;
-		if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.30 || reward != 0.0)
+		if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.20 || reward != 0.0)
 		{
 			done = true;
 		}
