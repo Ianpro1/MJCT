@@ -30,6 +30,8 @@ env = mjct.make("Tosser", gym=True)
 ***ENV_ID LIST***
 >Tosser
 >
+>TosserCPP
+>
 &nbsp;
  
 _Dependencies and Versions: mujoco.dll, MuJoCo 2.3.3, glfw 3.3.8_
