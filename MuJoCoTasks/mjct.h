@@ -133,11 +133,12 @@ private:
 public:
 	//parameters for pickling support or deep copy (if ever needed)
 	const char* _path;
-	bool b_render;
+	bool b_render = false;
+	bool render_onstep = false;
 	double _params[2];
 
 	//init
-	TosserCPP(const char* path, bool render, double timestep, double apirate)
+	TosserCPP(const char* path, unsigned int render, double timestep, double apirate)
 	{
 		terminated = false;
 		// required init
@@ -158,7 +159,19 @@ public:
 		}
 
 		d = mj_makeData(m);
-		b_render = render;
+		
+		//enable render method
+		if (render == 1) {
+			throw std::runtime_error("'rgb_array' type render is not available for 'TosserCPP', use 'Tosser' instead.");
+		}
+		else if (render == 2) {
+			b_render = true;
+		}
+		else if (render == 3) {
+			b_render = true;
+			render_onstep = true;
+		}
+
 
 		//optional init
 		if (b_render){
@@ -185,18 +198,18 @@ public:
 			mj_step(m, d);
 		}
 
-		//filter reward
-		double reward;
+		//process reward and done flags
+		bool done = false;
+		double reward = 0.0;
 		if (d->sensordata[2] > 9) {
 			//red bucket
-			reward = 0.5;
+			reward += 1.0;
+			done = true;
 		}
 		else if (d->sensordata[3] > 9) {
 			//green bucket
-			reward = 1.0;
-		}
-		else {
-			reward = 0.0;
+			reward += 2.0;
+			done = true;
 		}
 
 		//process observation
@@ -208,13 +221,11 @@ public:
 		}
 		
 		//process termination
-		bool done;
-		if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.20 || reward != 0.0)
-		{
-			done = true;
-		}
-		else {
-			done = false;
+		if (done == false) {
+			if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.15)
+			{
+				done = true;
+			}
 		}
 
 		//truncated
@@ -225,6 +236,13 @@ public:
 		}
 		else if (done) {
 			terminated = true;
+			//dynamic reward update
+			reward += d->qpos[3] * -1;
+		}
+
+
+		if (b_render && render_onstep) {
+			this->render();
 		}
 		return std::make_tuple(observation, reward, done, false, info);
 	}

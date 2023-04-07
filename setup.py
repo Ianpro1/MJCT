@@ -7,7 +7,7 @@ from pathlib import Path
 from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 from setuptools.command.install import install
-import shutil
+import glob
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -161,6 +161,6 @@ setup(
     extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
     packages=find_packages(),
-    data_files=[('lib/site-packages/mjct', ['mjct/mujoco.dll']), ('lib/site-packages/mjct/models', ['mjct/models/tosser.xml'])],
+    data_files=[('lib/site-packages/mjct', ['mjct/mujoco.dll']), ('lib/site-packages/mjct/models', glob.glob('mjct/models/*.xml'))],
     install_requires=['numpy'],
 )

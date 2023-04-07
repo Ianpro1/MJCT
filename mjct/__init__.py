@@ -51,6 +51,8 @@ def make(ENV_ID, render="", timestep=0.002, apirate=360, gym=False):
         render_type = 1
     elif render == "glwindow":
         render_type = 2
+    elif render == "autogl":
+        render_type = 3
     else:
         raise render_TypeError(render)
 
@@ -68,14 +70,8 @@ def make(ENV_ID, render="", timestep=0.002, apirate=360, gym=False):
             env = mujocotasks.Tosser(filepath+'/models/tosser.xml', brender, timestep, apirate)
             args =[(10,), (2,)]
             
-        case "TosserCPP":  
-            if render_type == 0:
-                brender = False
-            elif render_type == 2:
-                brender=True
-            else:
-                raise Exception("The only rendering mode on 'TosserCPP' is 'glwindow'!")
-            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', brender, timestep, apirate)
+        case "TosserCPP":
+            env = mujocotasks.TosserCPP(filepath+'/models/tosser.xml', render_type, timestep, apirate)
             args =[(10,), (2,)]
 
         case _:

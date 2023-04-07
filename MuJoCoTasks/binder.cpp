@@ -23,7 +23,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 	//Tosser implemented using pybind11 wrapper over C++ function
 	//add fps functionality
 	py::class_<TosserCPP>(m, "TosserCPP")
-		.def(py::init<const char*, bool, double, double>(), py::arg("path"), py::arg("render") = false, py::arg("timestep"), py::arg("apirate"))
+		.def(py::init<const char*, unsigned int, double, double>(), py::arg("path"), py::arg("render") = 0, py::arg("timestep"), py::arg("apirate"))
 		.def("reset", &TosserCPP::reset)
 		.def("step", [](TosserCPP &t, py::array_t<double, py::array::c_style | py::array::forcecast> python_input) {
 		py::buffer_info buffer_info = python_input.request();
@@ -34,7 +34,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 		return t.step(action); })
 		.def("render", &TosserCPP::render);
 /*
-		//pickling support (doesn't work for some reason?)
+		//pickling support (doesn't work for some reason?: made before render types)
 
 		.def(py::pickle(
 			[](const TosserCPP& t) {
@@ -62,7 +62,7 @@ PYBIND11_MODULE(mujocotasks, m) {
 			));*/
 
 
-		//Next model will be implemented using CPP method and render should now be an integer between {0:"", 1:"rgb_array", 2:"glwindow"}
+		//Next model will be implemented using CPP method and render should now be an integer between {0:"", 1:"rgb_array", 2:"glwindow", 3:"autogl"}
 
 
 }
