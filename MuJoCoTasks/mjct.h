@@ -7,6 +7,7 @@
 #include <tuple>
 #include <array>
 #include <string>
+#include <cmath>
 
 //example of what components every task environment must have by default (in the documentation it is refered to as render-disabled or LightEnvironment)
 //equivalent to render-disabled environment structure
@@ -203,12 +204,12 @@ public:
 		double reward = 0.0;
 		if (d->sensordata[2] > 9) {
 			//red bucket
-			reward += 1.0;
+			reward += 2.0;
 			done = true;
 		}
 		else if (d->sensordata[3] > 9) {
 			//green bucket
-			reward += 2.0;
+			reward += 4.0;
 			done = true;
 		}
 
@@ -222,7 +223,7 @@ public:
 		
 		//process termination
 		if (done == false) {
-			if (d->time > 4 || d->qpos[2] < -0.94 && d->qpos[3] < -0.15)
+			if (d->time > 3.0 || d->qpos[2] < -0.86)
 			{
 				done = true;
 			}
