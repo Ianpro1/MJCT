@@ -1,7 +1,6 @@
-# MJCT (MujocoTasks)
-***status: incomplete***
+# MJCT (Example of Mujoco Tasks Python Bindings)
 
-C/C++ Reinforcement Learning Tasks using MuJoCo Physics Engine with Python API
+C/C++ Reinforcement Learning Tasks using MuJoCo Physics Engine with Python Bindings
 
 ******
 
@@ -11,7 +10,7 @@ INSTALLATION (FOR WINDOWS ONLY):
 git clone --recursive https://github.com/Ianpro1/MJCT.git
 pip install ./MJCT
 ```
-The installed module is actually named MuJoCoTasks, therefore to uninstall simply run:
+The installed module is actually named MuJoCoTasks, to uninstall simply run:
 ```
 pip uninstall mujocotasks
 ```
